@@ -6,7 +6,7 @@ API of http://www.adventar.org
 ### Usage
 Return data is JSON.
 - title
-- calnder-url
+- calendar-url
 - creator
 - description
 - entry_count
@@ -16,6 +16,7 @@ Return data is JSON.
     - user
     - icon
     - comment
+    - title
     - url
     - is-entry
     - is-posted
