@@ -5,6 +5,27 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
+type Adventar struct {
+	Title        string
+	Url          string
+	Creator      string
+	Description  string
+	Entry_count  int
+	Posted_count int
+	Calendars    Calendars
+}
+
+type Calendars struct {
+	Date      int
+	User      string
+	Icon      string
+	Comment   string
+	Title     string
+	Url       string
+	Is_entry  bool
+	Is_posted bool
+}
+
 func scraping(url string) {
 	doc, err := goquery.NewDocument(url)
 	if err != nil {
