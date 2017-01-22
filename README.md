@@ -9,13 +9,15 @@ Return data is JSON.
 - calnder-url
 - creator
 - description
-- users_count
-- published_count
-- articles
+- entry_count
+- posted_count
+- calendars
     - date
     - user
     - icon
     - comment
     - url
+    - is-entry
+    - is-posted
 
 Access URL is /ARTICLE-NUMBER or /CALENDER-URL
