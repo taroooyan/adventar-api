@@ -1,9 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
-  "strconv"
+	"strconv"
 )
 
 type Adventar struct {
@@ -40,7 +41,7 @@ func scraping(url string) (data Adventar) {
 
 	// Description
 	doc.Find(".mod-calendarDescription").Each(func(_ int, s *goquery.Selection) {
-    data.Description = "test"
+		data.Description = "test"
 	})
 
 	// Creator
@@ -48,59 +49,64 @@ func scraping(url string) (data Adventar) {
 		data.Creator = s.Find("span").Text()
 	})
 
-  // User
+	// User
 	doc.Find(".mod-calendar-cell").Each(func(_ int, s *goquery.Selection) {
 		date := s.Find(".mod-calendar-date").Text()
 		user := s.Find(".mod-calendar-user").Text()
-    var icon string
+		var icon string
 		s.Find("img").Each(func(_ int, s *goquery.Selection) {
-      url, _ = s.Attr("src")
-      icon = url
-    })
-    dateI, _ := strconv.Atoi(date)
-    data.Calendars[dateI-1].Date = dateI
-    data.Calendars[dateI-1].User = user
-    data.Calendars[dateI-1].Icon = icon
+			url, _ = s.Attr("src")
+			icon = url
+		})
+		dateI, _ := strconv.Atoi(date)
+		data.Calendars[dateI-1].Date = dateI
+		data.Calendars[dateI-1].User = user
+		data.Calendars[dateI-1].Icon = icon
 	})
 
 	// Entry
 	var entryCount int
 	doc.Find(".is-entry").Each(func(i int, s *goquery.Selection) {
 		date := s.Find(".mod-calendar-date").Text()
-    dateI, _ := strconv.Atoi(date)
-    data.Calendars[dateI-1].Is_entry = true
+		dateI, _ := strconv.Atoi(date)
+		data.Calendars[dateI-1].Is_entry = true
 		entryCount = i
 	})
-  data.Entry_count = entryCount + 1
+	data.Entry_count = entryCount + 1
 
 	// Posted
 	var postedCount int
 	doc.Find(".is-posted").Each(func(i int, s *goquery.Selection) {
 		date := s.Find(".mod-calendar-date").Text()
-    dateI, _ := strconv.Atoi(date)
-    data.Calendars[dateI-1].Is_posted = true
+		dateI, _ := strconv.Atoi(date)
+		data.Calendars[dateI-1].Is_posted = true
 		postedCount = i
 	})
-  data.Posted_count = postedCount + 1
+	data.Posted_count = postedCount + 1
 
 	// comment
 	doc.Find(".mod-entryList-comment").Each(func(i int, s *goquery.Selection) {
-    data.Calendars[i].Comment = s.Text()
+		data.Calendars[i].Comment = s.Text()
 	})
 
 	// title
 	doc.Find(".mod-entryList-title").Each(func(i int, s *goquery.Selection) {
-    data.Calendars[i].Title = s.Text()
+		data.Calendars[i].Title = s.Text()
 	})
 
 	// url
 	doc.Find(".mod-entryList-url").Each(func(i int, s *goquery.Selection) {
-    data.Calendars[i].Url = s.Text()
+		data.Calendars[i].Url = s.Text()
 	})
-  return
+	return
 }
 
 func main() {
 	const url = "http://www.adventar.org/calendars/888"
-	fmt.Println(scraping(url))
+	data := scraping(url)
+	dataJson, err := json.Marshal(data)
+	if err != nil {
+		return
+	}
+	fmt.Println(string(dataJson))
 }
