@@ -41,7 +41,8 @@ func scraping(url string) (data Adventar) {
 
 	// Description
 	doc.Find(".mod-calendarDescription").Each(func(_ int, s *goquery.Selection) {
-		data.Description = "test"
+		description, _ := s.Html()
+		data.Description = description
 	})
 
 	// Creator
