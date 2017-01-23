@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
 	"strconv"
+	"strings"
 )
 
 type Adventar struct {
@@ -87,17 +88,26 @@ func scraping(url string) (data Adventar) {
 
 	// comment
 	doc.Find(".mod-entryList-comment").Each(func(i int, s *goquery.Selection) {
-		data.Calendars[i].Comment = s.Text()
+		dateId, _ := s.Attr("data-reactid")
+		tmp := strings.Split(strings.Split(dateId, "-")[2], ".")[0]
+		date, _ := strconv.Atoi(tmp)
+		data.Calendars[date-1].Comment = s.Text()
 	})
 
 	// title
 	doc.Find(".mod-entryList-title").Each(func(i int, s *goquery.Selection) {
-		data.Calendars[i].Title = s.Text()
+		dateId, _ := s.Attr("data-reactid")
+		tmp := strings.Split(strings.Split(dateId, "-")[2], ".")[0]
+		date, _ := strconv.Atoi(tmp)
+		data.Calendars[date-1].Title = s.Text()
 	})
 
 	// url
 	doc.Find(".mod-entryList-url").Each(func(i int, s *goquery.Selection) {
-		data.Calendars[i].Url = s.Text()
+		dateId, _ := s.Attr("data-reactid")
+		tmp := strings.Split(strings.Split(dateId, "-")[2], ".")[0]
+		date, _ := strconv.Atoi(tmp)
+		data.Calendars[date-1].Url = s.Text()
 	})
 	return
 }
