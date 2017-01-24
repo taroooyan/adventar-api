@@ -40,6 +40,8 @@ func isErrorStatus(url string) bool {
 }
 
 func scraping(url string) (data Adventar) {
+	data.Url = url
+
 	if isErrorStatus(url) {
 		fmt.Println("status error")
 		data.Is_error = true
