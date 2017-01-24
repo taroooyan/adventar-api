@@ -141,5 +141,5 @@ func createJson(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/adventar/", createJson)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":80", nil)
 }
