@@ -4,12 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/PuerkitoBio/goquery"
+	"net/http"
 	"strconv"
 	"strings"
-  "net/http"
 )
 
 type Adventar struct {
+	Is_error     bool
 	Title        string
 	Url          string
 	Creator      string
@@ -30,7 +31,20 @@ type Calendars struct {
 	Is_posted bool
 }
 
+func isErrorStatus(url string) bool {
+	res, err := http.Get(url)
+	if err != nil || res.StatusCode != 200 {
+		return true
+	}
+	return false
+}
+
 func scraping(url string) (data Adventar) {
+	if isErrorStatus(url) {
+		fmt.Println("status error")
+		data.Is_error = true
+		return
+	}
 	doc, err := goquery.NewDocument(url)
 	if err != nil {
 		fmt.Println("failed")
@@ -114,16 +128,18 @@ func scraping(url string) (data Adventar) {
 }
 
 func createJson(w http.ResponseWriter, r *http.Request) {
-	const url = "http://www.adventar.org/calendars/888"
-	data := scraping(url)
+	const baseUrl = "http://www.adventar.org/calendars/"
+	path := strings.Split(r.URL.Path, "/")[2]
+
+	data := scraping(baseUrl + path)
 	dataJson, err := json.Marshal(data)
 	if err != nil {
 		return
 	}
-  fmt.Fprintf(w, string(dataJson))
+	fmt.Fprintf(w, string(dataJson))
 }
 
 func main() {
-  http.HandleFunc("/adventar/", createJson)
-  http.ListenAndServe(":8080", nil)
+	http.HandleFunc("/adventar/", createJson)
+	http.ListenAndServe(":8080", nil)
 }
