@@ -6,6 +6,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 	"strconv"
 	"strings"
+  "net/http"
 )
 
 type Adventar struct {
@@ -112,12 +113,17 @@ func scraping(url string) (data Adventar) {
 	return
 }
 
-func main() {
+func createJson(w http.ResponseWriter, r *http.Request) {
 	const url = "http://www.adventar.org/calendars/888"
 	data := scraping(url)
 	dataJson, err := json.Marshal(data)
 	if err != nil {
 		return
 	}
-	fmt.Println(string(dataJson))
+  fmt.Fprintf(w, string(dataJson))
+}
+
+func main() {
+  http.HandleFunc("/adventar/", createJson)
+  http.ListenAndServe(":8080", nil)
 }
