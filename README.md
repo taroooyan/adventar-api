@@ -5,20 +5,27 @@ API of http://www.adventar.org
 
 ### Usage
 Return data is JSON.
-- title
-- url
-- creator
-- description
-- entry_count
-- posted_count
-- calendars
-    - date
-    - user
-    - icon
-    - comment
-    - title
-    - url
-    - is_entry
-    - is_posted
+```
+Is_error: ,
+Title: "",
+Url: "",
+Creator: "",
+Description: "",
+Entry_count: ,
+Posted_count: ,
+Calendars: [
+    {
+        Date: ,
+        User: "",
+        Icon: "",
+        Comment: "",
+        Title: "",
+        Url: "",
+        Is_entry: ,
+        Is_posted: 
+    },
+    ...
+]
+```
 
-Access URL is /ARTICLE-NUMBER or /CALENDER-URL
+Access URL is adventar/ARTICLE-NUMBER
