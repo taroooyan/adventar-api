@@ -31,7 +31,7 @@ type Calendars struct {
 	Is_posted bool
 }
 
-func isErrorStatus(url string) bool {
+func IsErrorStatus(url string) bool {
 	res, err := http.Get(url)
 	if err != nil || res.StatusCode != 200 {
 		return true
@@ -39,10 +39,10 @@ func isErrorStatus(url string) bool {
 	return false
 }
 
-func scraping(url string) (data Adventar) {
+func Scraping(url string) (data Adventar) {
 	data.Url = url
 
-	if isErrorStatus(url) {
+	if IsErrorStatus(url) {
 		fmt.Println("status error")
 		data.Is_error = true
 		return
@@ -129,11 +129,11 @@ func scraping(url string) (data Adventar) {
 	return
 }
 
-func createData(w http.ResponseWriter, r *http.Request) {
+func CreateData(w http.ResponseWriter, r *http.Request) {
 	const baseUrl = "http://www.adventar.org/calendars/"
 	path := strings.Split(r.URL.Path, "/")[2]
 
-	data := scraping(baseUrl + path)
+	data := Scraping(baseUrl + path)
 	dataJson, err := json.Marshal(data)
 	if err != nil {
 		return
@@ -142,6 +142,6 @@ func createData(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/adventar/", createData)
+	http.HandleFunc("/adventar/", CreateData)
 	http.ListenAndServe(":80", nil)
 }
