@@ -129,9 +129,20 @@ func Scraping(url string) (data Adventar) {
 	return
 }
 
+func IsErrorNumber(number string) bool{
+  if _, err := strconv.Atoi(number); err == nil {
+    return false
+  }
+  return true
+}
+
 func CreateData(w http.ResponseWriter, r *http.Request) {
 	const baseUrl = "http://www.adventar.org/calendars/"
 	number := strings.Split(r.URL.Path, "/")[2]
+  if IsErrorNumber(number) {
+    fmt.Fprintf(w, "Request number error")
+    return
+  }
 
 	data := Scraping(baseUrl + number)
 	dataJson, err := json.Marshal(data)

@@ -22,6 +22,24 @@ func TestIsErrorStatus(t *testing.T) {
   }
 }
 
+func TestIsErrorNumber(t *testing.T) {
+  // normal
+  number := "10"
+  result := IsErrorNumber(number)
+  if false != result {
+    t.Errorf("number is %s %v", number, result)
+    t.Fail()
+  }
+
+  // illegal
+  number = "123ab"
+  result = IsErrorNumber(number)
+  if true != result {
+    t.Errorf("number is %s %v", number, result)
+    t.Fail()
+  }
+}
+
 func TestScraping(t *testing.T) {
   url := "http://www.adventar.org/calendars/888"
   result := Scraping(url)
