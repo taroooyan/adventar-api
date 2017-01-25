@@ -131,9 +131,9 @@ func Scraping(url string) (data Adventar) {
 
 func CreateData(w http.ResponseWriter, r *http.Request) {
 	const baseUrl = "http://www.adventar.org/calendars/"
-	path := strings.Split(r.URL.Path, "/")[2]
+	number := strings.Split(r.URL.Path, "/")[2]
 
-	data := Scraping(baseUrl + path)
+	data := Scraping(baseUrl + number)
 	dataJson, err := json.Marshal(data)
 	if err != nil {
 		return
