@@ -129,7 +129,7 @@ func scraping(url string) (data Adventar) {
 	return
 }
 
-func createJson(w http.ResponseWriter, r *http.Request) {
+func createData(w http.ResponseWriter, r *http.Request) {
 	const baseUrl = "http://www.adventar.org/calendars/"
 	path := strings.Split(r.URL.Path, "/")[2]
 
@@ -142,6 +142,6 @@ func createJson(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/adventar/", createJson)
+	http.HandleFunc("/adventar/", createData)
 	http.ListenAndServe(":80", nil)
 }

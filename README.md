@@ -29,3 +29,4 @@ Calendars: [
 ```
 
 Access URL is /adventar/ARTICLE-NUMBER
+ARTICLE-NUMBER is *** of `adventaradventar.org/calendars/***`
