@@ -8,7 +8,7 @@ func TestIsErrorStatus(t *testing.T) {
   // normal url
   url := "http://www.adventar.org/calendars/888"
   result := IsErrorStatus(url)
-  if false != result {
+  if true == result {
     t.Errorf("result is %v", result)
     t.Fail()
   }
@@ -16,7 +16,7 @@ func TestIsErrorStatus(t *testing.T) {
   // error url
   url = "http://www.adventar.org/calendars/88"
   result = IsErrorStatus(url)
-  if true != result {
+  if false == result {
     t.Errorf("result is %v", result)
     t.Fail()
   }
@@ -26,7 +26,7 @@ func TestIsErrorNumber(t *testing.T) {
   // normal
   number := "10"
   result := IsErrorNumber(number)
-  if false != result {
+  if true == result {
     t.Errorf("number is %s %v", number, result)
     t.Fail()
   }
@@ -34,7 +34,7 @@ func TestIsErrorNumber(t *testing.T) {
   // illegal
   number = "123ab"
   result = IsErrorNumber(number)
-  if true != result {
+  if false == result {
     t.Errorf("number is %s %v", number, result)
     t.Fail()
   }
