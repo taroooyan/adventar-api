@@ -1,9 +1,9 @@
 # adventar-api
 
-### Description
+## Description
 API of http://www.adventar.org
 
-### Usage
+## Usage
 Return data is JSON.
 ```
 Is_error: bool,
@@ -30,3 +30,6 @@ Calendars: [
 
 Access URL is /adventar/ARTICLE-NUMBER
 ARTICLE-NUMBER is *** of `adventaradventar.org/calendars/***`
+
+## LICENSE
+MIT
