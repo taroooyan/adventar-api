@@ -43,13 +43,13 @@ func Scraping(url string) (data Adventar) {
 	data.Url = url
 
 	if IsErrorStatus(url) {
-		fmt.Println("status error")
 		data.Is_error = true
 		return
 	}
 	doc, err := goquery.NewDocument(url)
 	if err != nil {
-		fmt.Println("failed")
+		data.Is_error = true
+    return
 	}
 
 	// Title
