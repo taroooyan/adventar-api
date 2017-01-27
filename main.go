@@ -49,7 +49,7 @@ func Scraping(url string) (data Adventar) {
 	doc, err := goquery.NewDocument(url)
 	if err != nil {
 		data.Is_error = true
-    return
+		return
 	}
 
 	// Title
@@ -68,7 +68,7 @@ func Scraping(url string) (data Adventar) {
 		data.Creator = s.Find("span").Text()
 	})
 
-	// User
+	// Calendars.Date, Calendars.User, Calendars.Icon
 	doc.Find(".mod-calendar-cell").Each(func(_ int, s *goquery.Selection) {
 		date := s.Find(".mod-calendar-date").Text()
 		user := s.Find(".mod-calendar-user").Text()
@@ -83,7 +83,7 @@ func Scraping(url string) (data Adventar) {
 		data.Calendars[dateI-1].Icon = icon
 	})
 
-	// Entry
+	// Calendars.Is_entry, Entry_count
 	var entryCount int
 	doc.Find(".is-entry").Each(func(i int, s *goquery.Selection) {
 		date := s.Find(".mod-calendar-date").Text()
@@ -93,7 +93,7 @@ func Scraping(url string) (data Adventar) {
 	})
 	data.Entry_count = entryCount + 1
 
-	// Posted
+	// Calendars.Is_posted, Posted_count
 	var postedCount int
 	doc.Find(".is-posted").Each(func(i int, s *goquery.Selection) {
 		date := s.Find(".mod-calendar-date").Text()
@@ -103,7 +103,7 @@ func Scraping(url string) (data Adventar) {
 	})
 	data.Posted_count = postedCount + 1
 
-	// comment
+	// Calendars.Comment
 	doc.Find(".mod-entryList-comment").Each(func(i int, s *goquery.Selection) {
 		dateId, _ := s.Attr("data-reactid")
 		tmp := strings.Split(strings.Split(dateId, "-")[2], ".")[0]
@@ -111,7 +111,7 @@ func Scraping(url string) (data Adventar) {
 		data.Calendars[date-1].Comment = s.Text()
 	})
 
-	// title
+	// Calendars.Title
 	doc.Find(".mod-entryList-title").Each(func(i int, s *goquery.Selection) {
 		dateId, _ := s.Attr("data-reactid")
 		tmp := strings.Split(strings.Split(dateId, "-")[2], ".")[0]
@@ -119,7 +119,7 @@ func Scraping(url string) (data Adventar) {
 		data.Calendars[date-1].Title = s.Text()
 	})
 
-	// url
+	// Calendars.Url
 	doc.Find(".mod-entryList-url").Each(func(i int, s *goquery.Selection) {
 		dateId, _ := s.Attr("data-reactid")
 		tmp := strings.Split(strings.Split(dateId, "-")[2], ".")[0]
@@ -129,20 +129,20 @@ func Scraping(url string) (data Adventar) {
 	return
 }
 
-func IsErrorNumber(number string) bool{
-  if _, err := strconv.Atoi(number); err == nil {
-    return false
-  }
-  return true
+func IsErrorNumber(number string) bool {
+	if _, err := strconv.Atoi(number); err == nil {
+		return false
+	}
+	return true
 }
 
 func CreateData(w http.ResponseWriter, r *http.Request) {
 	const baseUrl = "http://www.adventar.org/calendars/"
 	number := strings.Split(r.URL.Path, "/")[2]
-  if IsErrorNumber(number) {
-    fmt.Fprintf(w, "Request number error")
-    return
-  }
+	if IsErrorNumber(number) {
+		fmt.Fprintf(w, "Request number error")
+		return
+	}
 
 	data := Scraping(baseUrl + number)
 	dataJson, err := json.Marshal(data)
