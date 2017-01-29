@@ -138,7 +138,7 @@ func IsErrorNumber(number string) bool {
 
 func CreateData(w http.ResponseWriter, r *http.Request) {
 	const baseUrl = "http://www.adventar.org/calendars/"
-	number := strings.Split(r.URL.Path, "/")[2]
+	number := strings.Split(r.URL.Path, "/")[1]
 	if IsErrorNumber(number) {
 		fmt.Fprintf(w, "Request number error")
 		return
@@ -153,6 +153,6 @@ func CreateData(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/adventar/", CreateData)
+	http.HandleFunc("/", CreateData)
 	http.ListenAndServe(":80", nil)
 }

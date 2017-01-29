@@ -28,7 +28,7 @@ Calendars: [
 ]
 ```
 
-Access URL is /adventar/ARTICLE-NUMBER
+Access URL is /ARTICLE-NUMBER
 ARTICLE-NUMBER is *** of `adventaradventar.org/calendars/***`
 
 ## LICENSE
