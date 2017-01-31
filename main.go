@@ -3,7 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/PuerkitoBio/goquery"
+	"github.com/taroooyan/goquery"
+	"google.golang.org/appengine"
+	"google.golang.org/appengine/urlfetch"
 	"net/http"
 	"strconv"
 	"strings"
@@ -31,22 +33,28 @@ type Calendars struct {
 	Is_posted bool
 }
 
-func IsErrorStatus(url string) bool {
-	res, err := http.Get(url)
+func IsErrorStatus(url string, r *http.Request) bool {
+	// it is urlfetch instead of http for GAE.
+	ctx := appengine.NewContext(r)
+	client := urlfetch.Client(ctx)
+
+	res, err := client.Get(url)
 	if err != nil || res.StatusCode != 200 {
 		return true
 	}
 	return false
 }
 
-func Scraping(url string) (data Adventar) {
+func Scraping(url string, r *http.Request) (data Adventar) {
 	data.Url = url
 
-	if IsErrorStatus(url) {
+	if IsErrorStatus(url, r) {
 		data.Is_error = true
 		return
 	}
-	doc, err := goquery.NewDocument(url)
+
+	// usually argument of goguery.NewDocument is only url(string) created by PuerkitoBio but I want to use GAE. So I use taroooyan/goquery package that is rewrite code to use GAE.
+	doc, err := goquery.NewDocument(url, r)
 	if err != nil {
 		data.Is_error = true
 		return
@@ -144,7 +152,7 @@ func CreateData(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := Scraping(baseUrl + number)
+	data := Scraping(baseUrl+number, r)
 	dataJson, err := json.Marshal(data)
 	if err != nil {
 		return
@@ -152,7 +160,7 @@ func CreateData(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(dataJson))
 }
 
-func main() {
+func init() {
 	http.HandleFunc("/", CreateData)
 	http.ListenAndServe(":80", nil)
 }
