@@ -19,10 +19,10 @@ type Adventar struct {
 	Description  string
 	Entry_count  int
 	Posted_count int
-	Calendars    [25]Calendars
+	Calendars    [25]Calendar
 }
 
-type Calendars struct {
+type Calendar struct {
 	Date      int
 	User      string
 	Icon      string
