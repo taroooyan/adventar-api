@@ -78,60 +78,58 @@ func Scraping(url string, r *http.Request) (data Adventar) {
 
 	// Calendars.Date, Calendars.User, Calendars.Icon
 	doc.Find(".mod-calendar-cell").Each(func(_ int, s *goquery.Selection) {
-		date := s.Find(".mod-calendar-date").Text()
+		d := s.Find(".mod-calendar-date").Text()
+		date, _ := strconv.Atoi(d)
 		user := s.Find(".mod-calendar-user").Text()
-		var icon string
 		s.Find("img").Each(func(_ int, s *goquery.Selection) {
-			url, _ = s.Attr("src")
-			icon = url
+			icon, _ := s.Attr("src")
+			data.Calendars[date-1].Icon = icon
 		})
-		dateI, _ := strconv.Atoi(date)
-		data.Calendars[dateI-1].Date = dateI
-		data.Calendars[dateI-1].User = user
-		data.Calendars[dateI-1].Icon = icon
+		data.Calendars[date-1].Date = date
+		data.Calendars[date-1].User = user
 	})
 
 	// Calendars.Is_entry, Entry_count
 	var entryCount int
-	doc.Find(".is-entry").Each(func(i int, s *goquery.Selection) {
-		date := s.Find(".mod-calendar-date").Text()
-		dateI, _ := strconv.Atoi(date)
-		data.Calendars[dateI-1].Is_entry = true
-		entryCount = i
+	doc.Find(".is-entry").Each(func(c int, s *goquery.Selection) {
+		d := s.Find(".mod-calendar-date").Text()
+		date, _ := strconv.Atoi(d)
+		data.Calendars[date-1].Is_entry = true
+		entryCount = c
 	})
 	data.Entry_count = entryCount + 1
 
 	// Calendars.Is_posted, Posted_count
 	var postedCount int
-	doc.Find(".is-posted").Each(func(i int, s *goquery.Selection) {
-		date := s.Find(".mod-calendar-date").Text()
-		dateI, _ := strconv.Atoi(date)
-		data.Calendars[dateI-1].Is_posted = true
-		postedCount = i
+	doc.Find(".is-posted").Each(func(c int, s *goquery.Selection) {
+		d := s.Find(".mod-calendar-date").Text()
+		date, _ := strconv.Atoi(d)
+		data.Calendars[date-1].Is_posted = true
+		postedCount = c
 	})
 	data.Posted_count = postedCount + 1
 
 	// Calendars.Comment
-	doc.Find(".mod-entryList-comment").Each(func(i int, s *goquery.Selection) {
+	doc.Find(".mod-entryList-comment").Each(func(c int, s *goquery.Selection) {
 		dateId, _ := s.Attr("data-reactid")
-		tmp := strings.Split(strings.Split(dateId, "-")[2], ".")[0]
-		date, _ := strconv.Atoi(tmp)
+		d := strings.Split(strings.Split(dateId, "-")[2], ".")[0]
+		date, _ := strconv.Atoi(d)
 		data.Calendars[date-1].Comment = s.Text()
 	})
 
 	// Calendars.Title
-	doc.Find(".mod-entryList-title").Each(func(i int, s *goquery.Selection) {
+	doc.Find(".mod-entryList-title").Each(func(c int, s *goquery.Selection) {
 		dateId, _ := s.Attr("data-reactid")
-		tmp := strings.Split(strings.Split(dateId, "-")[2], ".")[0]
-		date, _ := strconv.Atoi(tmp)
+		d := strings.Split(strings.Split(dateId, "-")[2], ".")[0]
+		date, _ := strconv.Atoi(d)
 		data.Calendars[date-1].Title = s.Text()
 	})
 
 	// Calendars.Url
-	doc.Find(".mod-entryList-url").Each(func(i int, s *goquery.Selection) {
+	doc.Find(".mod-entryList-url").Each(func(c int, s *goquery.Selection) {
 		dateId, _ := s.Attr("data-reactid")
-		tmp := strings.Split(strings.Split(dateId, "-")[2], ".")[0]
-		date, _ := strconv.Atoi(tmp)
+		d := strings.Split(strings.Split(dateId, "-")[2], ".")[0]
+		date, _ := strconv.Atoi(d)
 		data.Calendars[date-1].Url = s.Text()
 	})
 	return
