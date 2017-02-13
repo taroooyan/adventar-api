@@ -1,5 +1,5 @@
 # adventar-api
-[![CircleCI](https://circleci.com/gh/taroooyan/adventar-api/tree/master.svg?style=svg)](https://circleci.com/gh/taroooyan/adventar-api/tree/master)
+![CircleCI](https://circleci.com/gh/taroooyan/adventar-api.svg?style=shield&circle-token=4f414c66211bee0d7e41206a1db98fa157422729)
 ## Description
 API of http://www.adventar.org
 
