@@ -4,10 +4,10 @@
 ## Description
 API of http://www.adventar.org
 This API can get each advent calendars info.
-It is run https://dventar-api.appspot.com`
 
-Access URL is /ARTICLE-NUMBER
-ARTICLE-NUMBER is *** of `adventaradventar.org/calendars/***`
+It is run https://dventar-api.appspot.com
+
+Access URL is /ARTICLE-NUMBER.ARTICLE-NUMBER is *** of `adventaradventar.org/calendars/***`
 
 Example) `https://adventar-api.appspot.com/888`
 
