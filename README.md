@@ -5,7 +5,7 @@
 API of http://www.adventar.org
 This API can get each advent calendars info.
 
-It is run https://dventar-api.appspot.com
+It is run https://adventar-api.appspot.com
 
 Access URL is /ARTICLE-NUMBER.ARTICLE-NUMBER is *** of `adventaradventar.org/calendars/***`
 
