@@ -7,11 +7,11 @@ This API can get each advent calendars info.
 
 It is run https://adventar-api.appspot.com
 
-Access URL is /ARTICLE-NUMBER.ARTICLE-NUMBER is *** of adventaradventar.org/calendars/***
+Access URL is /ARTICLE-NUMBER. ARTICLE-NUMBER is *** of adventaradventar.org/calendars/***
 
-Example
-To get info of [Aizu Advent Calendar 2015](http://www.adventar.org/calendars/888)
-Access URL [https://adventar-api.appspot.com/888](https://adventar-api.appspot.com/888)
+Example  
+To get info of [Aizu Advent Calendar 2015](http://www.adventar.org/calendars/888)  
+Access URL [https://adventar-api.appspot.com/888](https://adventar-api.appspot.com/888).
 
 ## Data
 Return data is JSON.
